@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}NFT{% endblock %}
+
+{% block body %}
+    <h1>NFT</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ n_f_t.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ n_f_t.name }}</td>
+            </tr>
+            <tr>
+                <th>Img</th>
+                <td>{{ n_f_t.img }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ n_f_t.description }}</td>
+            </tr>
+            <tr>
+                <th>Launch_date</th>
+                <td>{{ n_f_t.launchDate ? n_f_t.launchDate|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Launch_price_eur</th>
+                <td>{{ n_f_t.launchPriceEur }}</td>
+            </tr>
+            <tr>
+                <th>Launch_price_eth</th>
+                <td>{{ n_f_t.launchPriceEth }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_n_f_t_index') }}">back to list</a>
+
+    <a href="{{ path('app_n_f_t_edit', {'id': n_f_t.id}) }}">edit</a>
+
+    {{ include('nft/_delete_form.html.twig') }}
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}NFT index{% endblock %}
+
+{% block body %}
+    <h1>NFT index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Img</th>
+                <th>Description</th>
+                <th>Launch_date</th>
+                <th>Launch_price_eur</th>
+                <th>Launch_price_eth</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for n_f_t in n_f_ts %}
+            <tr>
+                <td>{{ n_f_t.id }}</td>
+                <td>{{ n_f_t.name }}</td>
+                <td>{{ n_f_t.img }}</td>
+                <td>{{ n_f_t.description }}</td>
+                <td>{{ n_f_t.launchDate ? n_f_t.launchDate|date('Y-m-d') : '' }}</td>
+                <td>{{ n_f_t.launchPriceEur }}</td>
+                <td>{{ n_f_t.launchPriceEth }}</td>
+                <td>
+                    <a href="{{ path('app_n_f_t_show', {'id': n_f_t.id}) }}">show</a>
+                    <a href="{{ path('app_n_f_t_edit', {'id': n_f_t.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_n_f_t_new') }}">Create new</a>
+{% endblock %}

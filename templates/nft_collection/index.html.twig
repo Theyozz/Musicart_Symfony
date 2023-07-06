@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}NFTCollection index{% endblock %}
+
+{% block body %}
+    <h1>NFTCollection index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for n_f_t_collection in n_f_t_collections %}
+            <tr>
+                <td>{{ n_f_t_collection.id }}</td>
+                <td>{{ n_f_t_collection.name }}</td>
+                <td>
+                    <a href="{{ path('app_n_f_t_collection_show', {'id': n_f_t_collection.id}) }}">show</a>
+                    <a href="{{ path('app_n_f_t_collection_edit', {'id': n_f_t_collection.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_n_f_t_collection_new') }}">Create new</a>
+{% endblock %}

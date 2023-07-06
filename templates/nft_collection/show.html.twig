@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}NFTCollection{% endblock %}
+
+{% block body %}
+    <h1>NFTCollection</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ n_f_t_collection.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ n_f_t_collection.name }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_n_f_t_collection_index') }}">back to list</a>
+
+    <a href="{{ path('app_n_f_t_collection_edit', {'id': n_f_t_collection.id}) }}">edit</a>
+
+    {{ include('nft_collection/_delete_form.html.twig') }}
+{% endblock %}
