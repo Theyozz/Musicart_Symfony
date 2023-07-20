@@ -10,12 +10,16 @@ use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AppFixtures extends Fixture
 {
+    public function __construct(private UserPasswordHasherInterface $hasher)
+    {
+    }
     public function load(ObjectManager $manager): void
     {
-        $faker = Factory::create('fr_FR');
+        $faker = Factory::create();
 
 
         $addresses = [];
@@ -33,8 +37,8 @@ class AppFixtures extends Fixture
         for ($i = 0; $i < 5; $i++) {
             $user = new User();
             $user
-                ->setPseudo($faker->realText(10))
-                ->setPassword($faker->password(10, 20))
+                ->setPseudo($faker->userName)
+                ->setPassword($this->hasher->hashPassword($user, $faker->password(10, 20)))
                 ->setEmail($faker->freeEmail())
                 ->setGender($faker->boolean(50))
                 ->setFirstname($faker->firstName())
@@ -46,11 +50,12 @@ class AppFixtures extends Fixture
         }
 
 
+
         $adminUser = new User();
         $adminUser
-            ->setPseudo($faker->realText(10))
+            ->setPseudo($faker->userName)
             ->setRoles(["ROLE_ADMIN"])
-            ->setPassword($faker->password(10, 20))
+            ->setPassword($this->hasher->hashPassword($user, $faker->password(10, 20)))
             ->setEmail($faker->freeEmail())
             ->setGender($faker->boolean(50))
             ->setFirstname($faker->firstName())
@@ -63,7 +68,7 @@ class AppFixtures extends Fixture
 
         for ($i = 0; $i < 5; $i++) {
             $category = new Category();
-            $category->setName($faker->realText(10));
+            $category->setName($faker->word);
 
             $manager->persist($category);
         }
@@ -72,7 +77,7 @@ class AppFixtures extends Fixture
         for ($i = 0; $i < 5; $i++) {
             $nftCollection = new NFTCollection();
             $nftCollection
-                ->setName($faker->realText(10));
+                ->setName($faker->word);
 
             $manager->persist($nftCollection);
             $collections[] = $nftCollection;
