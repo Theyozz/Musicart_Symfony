@@ -7,38 +7,53 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: NFTRepository::class)]
+#[ApiResource(normalizationContext: ['groups' => ['nft:read']])]
 class NFT
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups('nft:read')]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups('nft:read')]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups('nft:read')]
     private ?string $img = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Groups('nft:read')]
     private ?string $description = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $launch_date = null;
 
     #[ORM\Column]
+    #[Groups('nft:read')]
     private ?float $launch_price_eur = null;
 
     #[ORM\Column]
+    #[Groups('nft:read')]
     private ?float $launch_price_eth = null;
 
     #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'nFTs')]
+    #[Groups('nft:read')]
     private Collection $Category;
 
     #[ORM\OneToMany(mappedBy: 'nFT', targetEntity: NFTCollection::class)]
+    #[Groups('nft:read')]
     private Collection $NFTCollection;
+
+    #[ORM\ManyToOne(inversedBy: 'nft')]
+    #[Groups('nft:read')]
+    private ?User $user = null;
 
     public function __construct()
     {
@@ -176,4 +191,17 @@ class NFT
 
         return $this;
     }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
 }

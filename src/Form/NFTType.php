@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\NFT;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -15,11 +16,14 @@ class NFTType extends AbstractType
             ->add('name')
             ->add('img')
             ->add('description')
-            ->add('launch_date')
             ->add('launch_price_eur')
             ->add('launch_price_eth')
-            ->add('Category')
-        ;
+            ->add('category', EntityType::class, [ 
+                'class' => 'App\Entity\Category', 
+                'choice_label' => 'name', 
+                'multiple' => true,
+                'expanded' => true, 
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

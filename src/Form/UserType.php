@@ -13,14 +13,24 @@ class UserType extends AbstractType
     {
         $builder
             ->add('pseudo')
-            ->add('roles')
+            // ->add('roles', ChoiceType::class, [
+            //     'choices' => [
+            //         'Role 1' => 'ROLE_USER', 
+            //         'Role 2' => 'ROLE_ADMIN',
+            //     ],
+            //     'multiple' => true, 
+            //     'expanded' => true, 
+            //     'choice_label' => function ($choice, $key, $value) {
+            //         return $value;
+            //     },
+            // ])
             ->add('password')
             ->add('email')
             ->add('gender')
             ->add('firstname')
             ->add('lastname')
             ->add('BirthDate')
-            ->add('Address')
+            ->add('Address', AddressType::class)
         ;
     }
 

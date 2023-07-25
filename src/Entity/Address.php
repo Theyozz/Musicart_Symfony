@@ -4,8 +4,12 @@ namespace App\Entity;
 
 use App\Repository\AddressRepository;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
+
 
 #[ORM\Entity(repositoryClass: AddressRepository::class)]
+#[ApiResource(normalizationContext: ['groups' => ['address:read','user:read']])]
 class Address
 {
     #[ORM\Id]
@@ -14,12 +18,15 @@ class Address
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups('user:read')]
     private ?string $city = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups('user:read')]
     private ?string $ZIPCode = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups('user:read')]
     private ?string $street = null;
 
     public function getId(): ?int

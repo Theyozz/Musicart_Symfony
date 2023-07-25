@@ -17,9 +17,10 @@ class AppFixtures extends Fixture
     public function __construct(private UserPasswordHasherInterface $hasher)
     {
     }
+
     public function load(ObjectManager $manager): void
     {
-        $faker = Factory::create();
+        $faker = Factory::create('fr_FR');
 
 
         $addresses = [];
@@ -34,19 +35,21 @@ class AppFixtures extends Fixture
             $addresses[] = $userAddress;
         }
 
+        $users = [];
         for ($i = 0; $i < 5; $i++) {
             $user = new User();
             $user
-                ->setPseudo($faker->userName)
+                ->setPseudo($faker->userName) 
                 ->setPassword($this->hasher->hashPassword($user, $faker->password(10, 20)))
                 ->setEmail($faker->freeEmail())
                 ->setGender($faker->boolean(50))
                 ->setFirstname($faker->firstName())
                 ->setLastname($faker->lastName())
-                ->setBirthDate($faker->dateTime())
+                ->setBirthDate($faker->dateTimeBetween('-70 years', '-18 years'))
                 ->setAddress($addresses[$i]);
 
             $manager->persist($user);
+            $users[] = $user;
         }
 
 
@@ -81,22 +84,22 @@ class AppFixtures extends Fixture
 
             $manager->persist($nftCollection);
             $collections[] = $nftCollection;
-
         }
 
         for ($i = 0; $i < 5; $i++) {
-        $nft = new NFT();
-        $nft
-            ->setName($faker->realText(10))
-            ->setImg($faker->imageUrl(200, 200))
-            ->setDescription($faker->realText(200))
-            ->setLaunchDate($faker->dateTime())
-            ->setLaunchPriceEur($faker->randomFloat(2, 1, 1000))
-            ->setLaunchPriceEth($faker->randomFloat(2, 0.5, 100))
-            ->addNFTCollection($collections[$i])
-            ->addCategory($category);
+            $nft = new NFT();
+            $nft
+                ->setName($faker->word)
+                ->setImg($faker->imageUrl(200, 200))
+                ->setDescription($faker->realText(200))
+                ->setLaunchDate($faker->dateTimeBetween('-2 years', 'now'))
+                ->setLaunchPriceEur($faker->randomFloat(2, 1, 10000))
+                ->setLaunchPriceEth($faker->randomFloat(3, 0.05, 100))
+                ->addNFTCollection($collections[$i])
+                ->addCategory($category)
+                ->setUser($users[$i]);
 
-        $manager->persist($nft);
+            $manager->persist($nft);
         }
 
         $manager->flush();

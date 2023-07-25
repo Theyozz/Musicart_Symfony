@@ -3,23 +3,31 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use ApiPlatform\Metadata\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
+#[ApiResource(normalizationContext: ['groups' => ['user:read']])]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups('user:read')]
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
+    #[Groups('user:read')]
     private ?string $pseudo = null;
 
     #[ORM\Column]
+    #[Groups('user:read')]
     private array $roles = [];
 
     /**
@@ -29,22 +37,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups('user:read')]
     private ?string $email = null;
 
     #[ORM\Column]
+    #[Groups('user:read')]
     private ?bool $gender = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups('user:read')]
     private ?string $firstname = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups('user:read')]
     private ?string $lastname = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Groups('user:read')]
     private ?\DateTimeInterface $BirthDate = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[Groups('user:read')]
     private ?Address $Address = null;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: NFT::class)]
+    private Collection $nft;
+
+    public function __construct()
+    {
+        $this->nft = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -203,6 +225,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setAddress(?Address $Address): static
     {
         $this->Address = $Address;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, NFT>
+     */
+    public function getNft(): Collection
+    {
+        return $this->nft;
+    }
+
+    public function addNft(NFT $nft): static
+    {
+        if (!$this->nft->contains($nft)) {
+            $this->nft->add($nft);
+            $nft->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNft(NFT $nft): static
+    {
+        if ($this->nft->removeElement($nft)) {
+            // set the owning side to null (unless already changed)
+            if ($nft->getUser() === $this) {
+                $nft->setUser(null);
+            }
+        }
 
         return $this;
     }

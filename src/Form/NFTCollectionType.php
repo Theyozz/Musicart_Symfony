@@ -13,7 +13,6 @@ class NFTCollectionType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('nFT')
         ;
     }
 
