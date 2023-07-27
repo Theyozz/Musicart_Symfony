@@ -13,17 +13,17 @@ use ApiPlatform\Metadata\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[ApiResource(normalizationContext: ['groups' => ['user:read']])]
+#[ApiResource(normalizationContext: ['groups' => ['user:read', 'nft:read']])]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups('user:read')]
+    #[Groups('user:read', 'nft:read')]
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
-    #[Groups('user:read')]
+    #[Groups('user:read', 'nft:read')]
     private ?string $pseudo = null;
 
     #[ORM\Column]

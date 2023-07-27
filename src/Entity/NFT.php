@@ -11,7 +11,7 @@ use ApiPlatform\Metadata\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: NFTRepository::class)]
-#[ApiResource(normalizationContext: ['groups' => ['nft:read']])]
+#[ApiResource(normalizationContext: ['groups' => ['nft:read','user:read']])]
 class NFT
 {
     #[ORM\Id]
@@ -33,6 +33,7 @@ class NFT
     private ?string $description = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Groups('nft:read')]
     private ?\DateTimeInterface $launch_date = null;
 
     #[ORM\Column]
@@ -47,9 +48,10 @@ class NFT
     #[Groups('nft:read')]
     private Collection $Category;
 
-    #[ORM\OneToMany(mappedBy: 'nFT', targetEntity: NFTCollection::class)]
+    #[ORM\ManyToOne(targetEntity: NFTCollection::class, inversedBy: 'nFT')]
+    #[ORM\JoinColumn(name: 'nft_collection_id', referencedColumnName: 'id', nullable: false)]
     #[Groups('nft:read')]
-    private Collection $NFTCollection;
+    private NFTCollection $nFTCollection;
 
     #[ORM\ManyToOne(inversedBy: 'nft')]
     #[Groups('nft:read')]
@@ -58,7 +60,6 @@ class NFT
     public function __construct()
     {
         $this->Category = new ArrayCollection();
-        $this->NFTCollection = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -162,33 +163,14 @@ class NFT
         return $this;
     }
 
-    /**
-     * @return Collection<int, NFTCollection>
-     */
-    public function getNFTCollection(): Collection
+    public function getNFTCollection(): NFTCollection
     {
-        return $this->NFTCollection;
+        return $this->nFTCollection;
     }
 
-    public function addNFTCollection(NFTCollection $nFTCollection): static
+    public function setNFTCollection(NFTCollection $nFTCollection): self
     {
-        if (!$this->NFTCollection->contains($nFTCollection)) {
-            $this->NFTCollection->add($nFTCollection);
-            $nFTCollection->setNFT($this);
-        }
-
-        return $this;
-    }
-
-    public function removeNFTCollection(NFTCollection $nFTCollection): static
-    {
-        if ($this->NFTCollection->removeElement($nFTCollection)) {
-            // set the owning side to null (unless already changed)
-            if ($nFTCollection->getNFT() === $this) {
-                $nFTCollection->setNFT(null);
-            }
-        }
-
+        $this->nFTCollection = $nFTCollection;
         return $this;
     }
 

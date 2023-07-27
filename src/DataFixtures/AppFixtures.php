@@ -69,7 +69,7 @@ class AppFixtures extends Fixture
         $manager->persist($adminUser);
 
 
-        for ($i = 0; $i < 5; $i++) {
+        for ($i = 0; $i < 10; $i++) {
             $category = new Category();
             $category->setName($faker->word);
 
@@ -86,7 +86,7 @@ class AppFixtures extends Fixture
             $collections[] = $nftCollection;
         }
 
-        for ($i = 0; $i < 5; $i++) {
+        for ($i = 0; $i < 10; $i++) {
             $nft = new NFT();
             $nft
                 ->setName($faker->word)
@@ -95,9 +95,10 @@ class AppFixtures extends Fixture
                 ->setLaunchDate($faker->dateTimeBetween('-2 years', 'now'))
                 ->setLaunchPriceEur($faker->randomFloat(2, 1, 10000))
                 ->setLaunchPriceEth($faker->randomFloat(3, 0.05, 100))
-                ->addNFTCollection($collections[$i])
+                // ->addNFTCollection($collections[$i])
+                ->setNFTCollection($faker->randomElement($collections))
                 ->addCategory($category)
-                ->setUser($users[$i]);
+                ->setUser($faker->randomElement($users));
 
             $manager->persist($nft);
         }
