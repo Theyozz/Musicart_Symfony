@@ -45,12 +45,12 @@ class NFT
     private ?float $launch_price_eth = null;
 
     #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'nFTs')]
-    #[Groups('nft:read')]
+    #[Groups('nft:read','collection:read')]
     private Collection $Category;
 
     #[ORM\ManyToOne(targetEntity: NFTCollection::class, inversedBy: 'nFT')]
     #[ORM\JoinColumn(name: 'nft_collection_id', referencedColumnName: 'id', nullable: false)]
-    #[Groups('nft:read')]
+    #[Groups('nft:read','collection:read')]
     private NFTCollection $nFTCollection;
 
     #[ORM\ManyToOne(inversedBy: 'nft')]

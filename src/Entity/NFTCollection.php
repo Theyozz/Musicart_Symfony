@@ -5,6 +5,7 @@ namespace App\Entity;
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\NFTCollectionRepository;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -25,6 +26,10 @@ class NFTCollection
     #[ORM\OneToMany(mappedBy: 'nFTCollection', targetEntity: NFT::class)]
     #[Groups('nft:read')]
     private ?Collection $nFT;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups('nft:read')]
+    private ?string $description = null;
 
     public function getId(): ?int
     {
@@ -49,6 +54,18 @@ class NFTCollection
     public function getNfts(): Collection
     {
         return $this->nFT;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): static
+    {
+        $this->description = $description;
+
+        return $this;
     }
 
 }
