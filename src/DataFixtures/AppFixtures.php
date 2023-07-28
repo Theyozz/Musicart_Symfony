@@ -87,7 +87,7 @@ class AppFixtures extends Fixture
             $collections[] = $nftCollection;
         }
 
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 30; $i++) {
             $nft = new NFT();
             $nft
                 ->setName($faker->word)
