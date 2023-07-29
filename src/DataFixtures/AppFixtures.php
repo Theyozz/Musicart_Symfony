@@ -46,7 +46,8 @@ class AppFixtures extends Fixture
                 ->setFirstname($faker->firstName())
                 ->setLastname($faker->lastName())
                 ->setBirthDate($faker->dateTimeBetween('-70 years', '-18 years'))
-                ->setAddress($addresses[$i]);
+                ->setAddress($addresses[$i])
+                ->setProfilPicture('../../../assets/photo-de-profil.png');
 
             $manager->persist($user);
             $users[] = $user;
@@ -64,7 +65,8 @@ class AppFixtures extends Fixture
             ->setFirstname($faker->firstName())
             ->setLastname($faker->lastName())
             ->setBirthDate($faker->dateTime())
-            ->setAddress($addresses[$i]);
+            ->setAddress($addresses[$i])
+            ->setProfilPicture('../../../assets/photo-de-profil.png');
 
         $manager->persist($adminUser);
 

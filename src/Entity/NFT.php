@@ -11,7 +11,7 @@ use ApiPlatform\Metadata\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: NFTRepository::class)]
-#[ApiResource(normalizationContext: ['groups' => ['nft:read','user:read']])]
+#[ApiResource(normalizationContext: ['groups' => ['nft:read','user:read']], order: ['launch_date' => 'DESC'])]
 class NFT
 {
     #[ORM\Id]

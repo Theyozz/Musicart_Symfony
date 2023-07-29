@@ -63,6 +63,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: NFT::class)]
     private Collection $nft;
 
+    #[ORM\Column(length: 255)]
+    #[Groups('user:read', 'nft:read')]
+    private ?string $profil_picture = null;
+
     public function __construct()
     {
         $this->nft = new ArrayCollection();
@@ -255,6 +259,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $nft->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getProfilPicture(): ?string
+    {
+        return $this->profil_picture;
+    }
+
+    public function setProfilPicture(string $profil_picture): static
+    {
+        $this->profil_picture = $profil_picture;
 
         return $this;
     }
