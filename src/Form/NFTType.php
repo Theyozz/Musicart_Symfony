@@ -16,13 +16,26 @@ class NFTType extends AbstractType
             ->add('name')
             ->add('img')
             ->add('description')
+            ->add('launch_date')
             ->add('launch_price_eur')
             ->add('launch_price_eth')
+            ->add('nFTCollection', EntityType::class, [ 
+                'class' => 'App\Entity\NFTCollection', 
+                'choice_label' => 'name', 
+                'multiple' => false,
+                'expanded' => false, 
+            ])
             ->add('category', EntityType::class, [ 
-                'class' => 'App\Entity\Category', 
+                'class' => 'App\Entity\category', 
                 'choice_label' => 'name', 
                 'multiple' => true,
                 'expanded' => true, 
+            ])
+            ->add('user', EntityType::class, [ 
+                'class' => 'App\Entity\User', 
+                'choice_label' => 'pseudo', 
+                'multiple' => false,
+                'expanded' => false, 
             ]);
     }
 
