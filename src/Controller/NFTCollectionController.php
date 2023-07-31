@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/n/f/t/collection')]
+#[Route('/admin/n/f/t/collection')]
 class NFTCollectionController extends AbstractController
 {
     #[Route('/', name: 'app_n_f_t_collection_index', methods: ['GET'])]

@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/n/f/t')]
+#[Route('/admin/n/f/t')]
 class NFTController extends AbstractController
 {
     #[Route('/', name: 'app_n_f_t_index', methods: ['GET'])]
