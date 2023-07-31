@@ -11,10 +11,20 @@ security:
                 class: App\Entity\User
                 property: pseudo
     firewalls:
+        api:
+            pattern: ^/api
+            stateless: true
+            jwt: ~
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
+            json_login:
+                check_path: /authentication_token
+                username_path: pseudo
+                password_path: password
+                success_handler: lexik_jwt_authentication.handler.authentication_success
+                failure_handler: lexik_jwt_authentication.handler.authentication_failure
             lazy: true
             provider: app_user_provider
             custom_authenticator: App\Security\AppAuthenticator

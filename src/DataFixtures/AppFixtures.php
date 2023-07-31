@@ -57,9 +57,9 @@ class AppFixtures extends Fixture
 
         $adminUser = new User();
         $adminUser
-            ->setPseudo($faker->userName)
+            ->setPseudo('admin')
             ->setRoles(["ROLE_ADMIN"])
-            ->setPassword($this->hasher->hashPassword($user, $faker->password(10, 20)))
+            ->setPassword($this->hasher->hashPassword($user, 'admin'))
             ->setEmail($faker->freeEmail())
             ->setGender($faker->boolean(50))
             ->setFirstname($faker->firstName())
