@@ -31,6 +31,7 @@ class UserType extends AbstractType
             ->add('lastname')
             ->add('BirthDate')
             ->add('Address', AddressType::class)
+            ->add('profil_picture');
         ;
     }
 

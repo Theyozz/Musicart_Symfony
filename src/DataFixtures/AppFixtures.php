@@ -24,7 +24,7 @@ class AppFixtures extends Fixture
 
 
         $addresses = [];
-        for ($i = 0; $i < 6; $i++) {
+        for ($i = 0; $i < 9; $i++) {
             $userAddress = new Address();
             $userAddress
                 ->setCity($faker->city())
@@ -40,7 +40,8 @@ class AppFixtures extends Fixture
             $user = new User();
             $user
                 ->setPseudo($faker->userName) 
-                ->setPassword($this->hasher->hashPassword($user, $faker->password(10, 20)))
+                ->setPassword($this->hasher->hashPassword($user, 'password'))
+                ->setRoles(['ROLE_USER'])
                 ->setEmail($faker->freeEmail())
                 ->setGender($faker->boolean(50))
                 ->setFirstname($faker->firstName())
@@ -53,8 +54,6 @@ class AppFixtures extends Fixture
             $users[] = $user;
         }
 
-
-
         $adminUser = new User();
         $adminUser
             ->setPseudo('admin')
@@ -64,18 +63,19 @@ class AppFixtures extends Fixture
             ->setGender($faker->boolean(50))
             ->setFirstname($faker->firstName())
             ->setLastname($faker->lastName())
-            ->setBirthDate($faker->dateTime())
+            ->setBirthDate($faker->dateTimeBetween('-70 years', '-18 years'))
             ->setAddress($addresses[$i])
             ->setProfilPicture('../../../assets/photo-de-profil.png');
 
         $manager->persist($adminUser);
 
-
-        for ($i = 0; $i < 10; $i++) {
+        $categories = [];
+        for ($i = 0; $i < 5; $i++) {
             $category = new Category();
             $category->setName($faker->word);
 
             $manager->persist($category);
+            $categories[] = $category;
         }
 
         $collections = [];
@@ -99,7 +99,7 @@ class AppFixtures extends Fixture
                 ->setLaunchPriceEur($faker->randomFloat(2, 1, 10000))
                 ->setLaunchPriceEth($faker->randomFloat(3, 0.05, 100))
                 ->setNFTCollection($faker->randomElement($collections))
-                ->addCategory($category)
+                ->addCategory($faker->randomElement($categories))
                 ->setUser($faker->randomElement($users));
 
             $manager->persist($nft);

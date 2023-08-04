@@ -11,13 +11,13 @@ security:
                 class: App\Entity\User
                 property: pseudo
     firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
         api:
             pattern: ^/api
             stateless: true
             jwt: ~
-        dev:
-            pattern: ^/(_(profiler|wdt)|css|images|js)/
-            security: false
         main:
             json_login:
                 check_path: /authentication_token
@@ -43,7 +43,8 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/api/user, roles: [ROLE_ADMIN, ROLE_USER] }
+        - { path: ^/authentication_token, roles: PUBLIC_ACCESS }
 
 when@test:
     security:
