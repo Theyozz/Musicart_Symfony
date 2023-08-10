@@ -41,7 +41,6 @@ class AppFixtures extends Fixture
             $user
                 ->setPseudo($faker->userName) 
                 ->setPassword($this->hasher->hashPassword($user, 'password'))
-                ->setRoles(['ROLE_USER'])
                 ->setEmail($faker->freeEmail())
                 ->setGender($faker->boolean(50))
                 ->setFirstname($faker->firstName())

@@ -36,6 +36,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
+    private ?string $plainPassword = null;
+
     #[ORM\Column(length: 255)]
     #[Groups('user:read')]
     private ?string $email = null;
@@ -70,6 +72,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function __construct()
     {
         $this->nft = new ArrayCollection();
+        $this->roles[] = 'ROLE_USER';
+        $this->profil_picture = '../../../assets/photo-de-profil.png';
     }
 
     public function getId(): ?int
@@ -129,6 +133,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @see PasswordAuthenticatedUserInterface
      */
+
+    public function getPlainPassword(): ?string
+    {
+        return $this->plainPassword;
+    }
+ 
+    public function setPlainPassword(string $plainPassword): void
+    {
+        $this->plainPassword = $plainPassword;
+    }
+    
+
     public function getPassword(): string
     {
         return $this->password;
@@ -136,7 +152,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function setPassword(string $password): static
     {
-        $this->password = $password;
+        $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+        $this->password = $hashedPassword;
 
         return $this;
     }
