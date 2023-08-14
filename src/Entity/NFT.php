@@ -11,7 +11,10 @@ use ApiPlatform\Metadata\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: NFTRepository::class)]
-#[ApiResource(normalizationContext: ['groups' => ['nft:read','user:read']], order: ['launch_date' => 'DESC'])]
+#[ApiResource(
+    normalizationContext: ['groups' => ['nft:read','user:read']], order: ['launch_date' => 'DESC'],
+    denormalizationContext: ['groups' => ['nft:create']]
+)]
 class NFT
 {
     #[ORM\Id]
@@ -21,40 +24,40 @@ class NFT
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups('nft:read')]
+    #[Groups(['nft:read','nft:create'])]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups('nft:read')]
+    #[Groups(['nft:read','nft:create'])]
     private ?string $img = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    #[Groups('nft:read')]
+    #[Groups(['nft:read','nft:create'])]
     private ?string $description = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     #[Groups('nft:read')]
     private ?\DateTimeInterface $launch_date = null;
 
     #[ORM\Column]
-    #[Groups('nft:read')]
+    #[Groups(['nft:read','nft:create'])]
     private ?float $launch_price_eur = null;
 
     #[ORM\Column]
-    #[Groups('nft:read')]
+    #[Groups(['nft:read','nft:create'])]
     private ?float $launch_price_eth = null;
 
     #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'nFTs')]
-    #[Groups('nft:read','collection:read')]
+    #[Groups(['nft:read'])]
     private Collection $Category;
 
     #[ORM\ManyToOne(targetEntity: NFTCollection::class, inversedBy: 'nFT')]
     #[ORM\JoinColumn(name: 'nft_collection_id', referencedColumnName: 'id', nullable: false)]
-    #[Groups('nft:read','collection:read')]
+    #[Groups(['nft:read','nft:create'])]
     private NFTCollection $nFTCollection;
 
     #[ORM\ManyToOne(inversedBy: 'nft')]
-    #[Groups('nft:read')]
+    #[Groups(['nft:read','nft:create'])]
     private ?User $user = null;
 
     public function __construct()
