@@ -13,7 +13,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Entity(repositoryClass: NFTRepository::class)]
 #[ApiResource(
     normalizationContext: ['groups' => ['nft:read','user:read']], order: ['launch_date' => 'DESC'],
-    denormalizationContext: ['groups' => ['nft:create']]
 )]
 class NFT
 {
@@ -24,15 +23,15 @@ class NFT
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['nft:read','nft:create'])]
+    #[Groups(['nft:read'])]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['nft:read','nft:create'])]
+    #[Groups(['nft:read'])]
     private ?string $img = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    #[Groups(['nft:read','nft:create'])]
+    #[Groups(['nft:read'])]
     private ?string $description = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
@@ -40,11 +39,11 @@ class NFT
     private ?\DateTimeInterface $launch_date = null;
 
     #[ORM\Column]
-    #[Groups(['nft:read','nft:create'])]
+    #[Groups(['nft:read'])]
     private ?float $launch_price_eur = null;
 
     #[ORM\Column]
-    #[Groups(['nft:read','nft:create'])]
+    #[Groups(['nft:read'])]
     private ?float $launch_price_eth = null;
 
     #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'nFTs')]
@@ -53,11 +52,11 @@ class NFT
 
     #[ORM\ManyToOne(targetEntity: NFTCollection::class, inversedBy: 'nFT')]
     #[ORM\JoinColumn(name: 'nft_collection_id', referencedColumnName: 'id', nullable: false)]
-    #[Groups(['nft:read','nft:create'])]
+    #[Groups(['nft:read'])]
     private NFTCollection $nFTCollection;
 
     #[ORM\ManyToOne(inversedBy: 'nft')]
-    #[Groups(['nft:read','nft:create'])]
+    #[Groups(['nft:read'])]
     private ?User $user = null;
 
     public function __construct()

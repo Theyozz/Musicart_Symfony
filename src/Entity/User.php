@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use ApiPlatform\Metadata\ApiResource;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
@@ -39,8 +40,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     #[Groups(['user:read','user:create'])]
     private ?string $password = null;
-
-    private ?string $plainPassword = null;
 
     #[ORM\Column(length: 255)]
     #[Groups(['user:read','user:create'])]
@@ -138,16 +137,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @see PasswordAuthenticatedUserInterface
      */
 
-    public function getPlainPassword(): ?string
-    {
-        return $this->plainPassword;
-    }
- 
-    public function setPlainPassword(string $plainPassword): void
-    {
-        $this->plainPassword = $plainPassword;
-    }
-    
 
     public function getPassword(): string
     {
@@ -156,9 +145,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function setPassword(string $password): static
     {
-        $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
-        $this->password = $hashedPassword;
-
+        $this->password = $password;
+        
         return $this;
     }
 
