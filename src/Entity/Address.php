@@ -9,9 +9,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 
 #[ORM\Entity(repositoryClass: AddressRepository::class)]
-#[ApiResource(
-    normalizationContext: ['groups' => ['address:read','user:read']]
-    )]
+#[ApiResource(normalizationContext: ['groups' => ['address:read','user:read']])]
 class Address
 {
     #[ORM\Id]
