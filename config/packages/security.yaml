@@ -45,6 +45,7 @@ security:
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/api/user, roles: IS_AUTHENTICATED_ANONYMOUSLY, methods: POST }
         - { path: ^/api/user, roles: [ROLE_ADMIN, ROLE_USER] }
+        - { path: ^/api/address, roles: [ROLE_ADMIN, ROLE_USER] }
         - { path: ^/authentication_token, roles: PUBLIC_ACCESS }
 
 when@test:

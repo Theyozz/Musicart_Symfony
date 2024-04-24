@@ -39,7 +39,7 @@ class AppFixtures extends Fixture
         for ($i = 0; $i < 5; $i++) {
             $user = new User();
             $user
-                ->setPseudo($faker->userName) 
+                ->setPseudo($faker->userName)
                 ->setPassword($this->hasher->hashPassword($user, 'password'))
                 ->setEmail($faker->freeEmail())
                 ->setGender($faker->boolean(50))
@@ -58,7 +58,7 @@ class AppFixtures extends Fixture
             ->setPseudo('admin')
             ->setRoles(["ROLE_ADMIN"])
             ->setPassword($this->hasher->hashPassword($adminUser, 'admin'))
-            ->setEmail($faker->freeEmail())
+            ->setEmail("admin@admin.com")
             ->setGender($faker->boolean(50))
             ->setFirstname($faker->firstName())
             ->setLastname($faker->lastName())
