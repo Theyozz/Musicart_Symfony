@@ -9,7 +9,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 
 #[ORM\Entity(repositoryClass: AddressRepository::class)]
-#[ApiResource(normalizationContext: ['groups' => ['address:read','user:read']])]
+#[ApiResource(normalizationContext: ['groups' => ['address:read', 'user:read']])]
 class Address
 {
     #[ORM\Id]
@@ -18,15 +18,15 @@ class Address
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['user:read','user:create'])]
-    private ?string $city = null;
+    #[Groups(['user:read', 'user:create'])]
+    private string $city;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['user:read','user:create'])]
-    private ?string $ZIPCode = null;
+    #[Groups(['user:read', 'user:create'])]
+    private string $ZIPCode;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['user:read','user:create'])]
+    #[Groups(['user:read', 'user:create'])]
     private ?string $street = null;
 
     public function getId(): ?int

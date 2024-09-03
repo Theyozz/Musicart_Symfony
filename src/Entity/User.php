@@ -10,7 +10,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use ApiPlatform\Metadata\ApiResource;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
@@ -24,11 +23,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\GeneratedValue]
     #[ORM\Column]
     #[Groups('user:read', 'nft:read')]
-    private ?int $id = null;
+    private int $id;
 
     #[ORM\Column(length: 180, unique: true)]
-    #[Groups(['user:read','user:create'])]
-    private ?string $pseudo = null;
+    #[Groups(['user:read', 'user:create'])]
+    private string $pseudo;
 
     #[ORM\Column]
     #[Groups('user:read')]
@@ -38,31 +37,31 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
-    #[Groups(['user:read','user:create'])]
-    private ?string $password = null;
+    #[Groups(['user:read', 'user:create'])]
+    private string $password;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['user:read','user:create'])]
-    private ?string $email = null;
+    #[Groups(['user:read', 'user:create'])]
+    private string $email;
 
     #[ORM\Column]
-    #[Groups(['user:read','user:create'])]
-    private ?bool $gender = null;
+    #[Groups(['user:read', 'user:create'])]
+    private bool $gender;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['user:read','user:create'])]
-    private ?string $firstname = null;
+    #[Groups(['user:read', 'user:create'])]
+    private string $firstname;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['user:read','user:create'])]
-    private ?string $lastname = null;
+    #[Groups(['user:read', 'user:create'])]
+    private string $lastname;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    #[Groups(['user:read','user:create'])]
-    private ?\DateTimeInterface $BirthDate = null;
+    #[Groups(['user:read', 'user:create'])]
+    private \DateTimeInterface $BirthDate;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    #[Groups(['user:read','user:create'])]
+    #[Groups(['user:read', 'user:create'])]
     private ?Address $Address = null;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: NFT::class)]
@@ -70,7 +69,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255)]
     #[Groups('user:read', 'nft:read')]
-    private ?string $profil_picture = null;
+    private string $profil_picture;
 
     public function __construct()
     {
@@ -146,7 +145,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPassword(string $password): static
     {
         $this->password = $password;
-        
+
         return $this;
     }
 
