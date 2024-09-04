@@ -2,13 +2,20 @@
 
 namespace App\Tests;
 
+use App\Entity\User;
 use PHPUnit\Framework\TestCase;
 
-//TODO
 class CreateUserTest extends TestCase
 {
-    public function testSomething(): void
+    public function testCreateUser(): void
     {
-        $this->assertTrue(true);
+        $user = new User();
+        $user->setFirstname("Firstname");
+        $user->setLastname("Lastname");
+        $user->setPassword('password');
+
+        $this->assertEquals('Firstname', $user->getFirstname());
+        $this->assertEquals('Lastname', $user->getLastname());
+        $this->assertEquals('password', $user->getPassword());
     }
 }
