@@ -5,8 +5,8 @@ declare(strict_types=1);
 
 namespace App\OpenApi;
 
-use ApiPlatform\Core\OpenApi\OpenApi;
-use ApiPlatform\Core\OpenApi\Model;
+use ApiPlatform\OpenApi\OpenApi;
+use ApiPlatform\OpenApi\Model;
 use ApiPlatform\OpenApi\Factory\OpenApiFactoryInterface;
 
 final class JwtDecorator implements OpenApiFactoryInterface
