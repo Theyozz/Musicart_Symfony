@@ -1,0 +1,6 @@
+FROM nginx:1.22-alpine
+
+WORKDIR /code
+
+COPY public/ /code/public/
+COPY nginx.conf /etc/nginx/nginx.conf

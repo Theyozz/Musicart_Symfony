@@ -1,0 +1,9 @@
+.git
+var/cache
+var/log
+.env.local
+.env.test
+config/jwt/*.pem
+tests
+.phpunit.result.cache
+.DS_Store
